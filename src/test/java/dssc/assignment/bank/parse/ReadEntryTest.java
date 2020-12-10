@@ -35,4 +35,12 @@ public class ReadEntryTest {
         Entry entry = reader.readEntry();
         assertEquals("222222222", entry.toString());
     }
+
+    @Test
+    void allOneToNineDigitEntry() throws Exception {
+        URL allOneToNineDigitSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allOneToNineDigitEntry");
+        EntryReader reader = new EntryReader(Path.of(allOneToNineDigitSingleEntry.toURI()));
+        Entry entry = reader.readEntry();
+        assertEquals("123456789", entry.toString());
+    }
 }
