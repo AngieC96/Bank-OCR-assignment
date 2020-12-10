@@ -27,4 +27,12 @@ public class ReadEntryTest {
         Entry entry = reader.readEntry();
         assertEquals("111111111", entry.toString());
     }
+
+    @Test
+    void allTwosEntry() throws Exception {
+        URL allTwosSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allTwosEntry");
+        EntryReader reader = new EntryReader(Path.of(allTwosSingleEntry.toURI()));
+        Entry entry = reader.readEntry();
+        assertEquals("222222222", entry.toString());
+    }
 }

@@ -19,4 +19,10 @@ public class PrintAccountNumberTest {
         Entry entry = new Entry("                           ", "  |  |  |  |  |  |  |  |  |", "  |  |  |  |  |  |  |  |  |");
         assertEquals("111111111", new AccountNumber(entry).toString());
     }
+
+    @Test
+    void allTwosEntry() {
+        Entry entry = new Entry(" _  _  _  _  _  _  _  _  _ ", " _| _| _| _| _| _| _| _| _|", "|_ |_ |_ |_ |_ |_ |_ |_ |_ ");
+        assertEquals("222222222", new AccountNumber(entry).toString());
+    }
 }
