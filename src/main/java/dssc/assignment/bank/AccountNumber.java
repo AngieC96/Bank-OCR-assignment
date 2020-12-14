@@ -14,6 +14,12 @@ public class AccountNumber {
     }
 
     public boolean isValid() {
-        return true;
+        String accountnumber = entry.toString();
+        int length = accountnumber.length();
+        int sum = 0;
+        for (int i=0; i < length; i++) {
+            sum += (length-i) * Integer.parseInt(accountnumber.substring(i, i+1));
+        }
+        return sum % 11 == 0;
     }
 }

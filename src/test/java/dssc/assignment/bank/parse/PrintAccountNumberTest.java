@@ -4,8 +4,7 @@ import dssc.assignment.bank.AccountNumber;
 import dssc.assignment.bank.Entry;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PrintAccountNumberTest {
 
@@ -37,5 +36,11 @@ public class PrintAccountNumberTest {
     void isAccountNumberValid() {
         Entry entry = new Entry(" _  _  _  _  _  _  _  _  _ ", " _|| || ||_|| || || || || |", "|_ |_||_||_||_||_||_||_||_|");
         assertTrue(new AccountNumber(entry).isValid());
+    }
+
+    @Test
+    void isAccountNumberNotValid() {
+        Entry entry = new Entry(" _  _  _  _  _  _  _  _  _ ", " _|| || || || || || || || |", "|_ |_||_||_||_||_||_||_||_|");
+        assertFalse(new AccountNumber(entry).isValid());
     }
 }
