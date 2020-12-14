@@ -50,28 +50,29 @@ public class Cell {
 
     @Override
     public String toString() {
-        if (cellAsText.equals(ZERO_CELL)){
-            return "0";
-        } else if (cellAsText.equals(ONE_CELL)){
-            return "1";
-        } else if (cellAsText.equals(TWO_CELL)){
-            return "2";
-        } else if (cellAsText.equals(THREE_CELL)){
-            return "3";
-        } else if (cellAsText.equals(FOUR_CELL)){
-            return "4";
-        } else if (cellAsText.equals(FIVE_CELL)){
-            return "5";
-        } else if (cellAsText.equals(SIX_CELL)){
-            return "6";
-        } else if (cellAsText.equals(SEVEN_CELL)){
-            return"7";
-        } else if (cellAsText.equals(EIGHT_CELL)){
-            return "8";
-        } else if (cellAsText.equals(NINE_CELL)) {
-            return "9";
-        } else {
-            return "?";
+        switch (cellAsText) {
+            case ZERO_CELL:
+                return "0";
+            case ONE_CELL:
+                return "1";
+            case TWO_CELL:
+                return "2";
+            case THREE_CELL:
+                return "3";
+            case FOUR_CELL:
+                return "4";
+            case FIVE_CELL:
+                return "5";
+            case SIX_CELL:
+                return "6";
+            case SEVEN_CELL:
+                return "7";
+            case EIGHT_CELL:
+                return "8";
+            case NINE_CELL:
+                return "9";
+            default:
+                return "?";
         }
     }
 }
