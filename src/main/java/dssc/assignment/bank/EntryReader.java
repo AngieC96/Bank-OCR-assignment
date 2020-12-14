@@ -14,15 +14,16 @@ public class EntryReader {
         fileLines = Files.readAllLines(filePath);
     }
 
-    public Entry readEntry() {
+    /*public Entry readEntries() {
         return new Entry(fileLines.get(0), fileLines.get(1), fileLines.get(2));
-    }
+    }*/
 
-    public List<Entry> readMultipleEntries(){
+    public List<Entry> readEntries() {
         List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i<fileLines.size(); i+=4) {
-            entries.add(new Entry(fileLines.get(i), fileLines.get(i+1), fileLines.get(i+2)));
+        for (int i = 0; i < fileLines.size(); i += 4) {
+            entries.add(new Entry(fileLines.get(i), fileLines.get(i + 1), fileLines.get(i + 2)));
         }
+
 
         return entries;
     }
