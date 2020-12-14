@@ -43,4 +43,16 @@ public class PrintAccountNumberTest {
         Entry entry = new Entry(" _  _  _  _  _  _  _  _  _ ", " _|| || || || || || || || |", "|_ |_||_||_||_||_||_||_||_|");
         assertFalse(new AccountNumber(entry).isValid());
     }
+
+    @Test
+    void hasNoQuestionMarkDigit() {
+        Entry entry = new Entry(" _  _  _  _  _  _  _  _  _ ", " _|| || || || || || || || |", "|_ |_||_||_||_||_||_||_||_|");
+        assertFalse(new AccountNumber(entry).hasQuestionMarkDigit());
+    }
+
+    @Test
+    void hasQuestionMarkDigit() {
+        Entry entry = new Entry("    _  _  _  _  _  _     _ ", "|_||_|| ||_||_   |  |  | _ ", "  | _||_||_||_|  |  |  | _|");
+        assertTrue(new AccountNumber(entry).hasQuestionMarkDigit());
+    }
 }

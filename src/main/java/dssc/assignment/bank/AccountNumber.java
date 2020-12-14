@@ -22,4 +22,16 @@ public class AccountNumber {
         }
         return sum % 11 == 0;
     }
+
+    public boolean hasQuestionMarkDigit() {
+        String accountnumber = entry.toString();
+        int length = accountnumber.length();
+        for (int i=0; i < length; i++) {
+            if (accountnumber.charAt(i) == '?') {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
