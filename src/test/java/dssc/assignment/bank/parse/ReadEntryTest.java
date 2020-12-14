@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReadEntryTest {
@@ -43,4 +45,17 @@ public class ReadEntryTest {
         Entry entry = reader.readEntry();
         assertEquals("123456789", entry.toString());
     }
+
+    @Test
+    void multipleEntries() throws Exception {
+        URL multipleEntries = BankOcrAcceptanceTest.class.getClassLoader().getResource("multipleEntries");
+        EntryReader reader = new EntryReader(Path.of(multipleEntries.toURI()));
+        List<Entry> entries = reader.readMultipleEntries();
+        assertAll(
+                () -> assertEquals("200800000", entries.get(0).toString()),
+                () -> assertEquals("999999999", entries.get(1).toString()),
+                () -> assertEquals("490867715", entries.get(2).toString())
+        );
+    }
+
 }
