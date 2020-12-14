@@ -46,4 +46,14 @@ public class BankOcrAcceptanceTest {
 
         application.showsAccountNumber(String.format("123456789%n"));
     }
+
+    @Test
+    public void parseFileWithMultipleEntriesAndShowActualAccountNumbersOnConsole() throws Exception {
+        URL multipleEntries = BankOcrAcceptanceTest.class.getClassLoader().getResource("multipleEntries");
+        ApplicationRunner application = new ApplicationRunner();
+
+        application.parseFile(Path.of(multipleEntries.toURI()));
+
+        application.showsAccountNumber(String.format("200800000%n999999999%n490867715%n"));
+    }
 }

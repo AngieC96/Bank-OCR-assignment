@@ -12,4 +12,8 @@ public class AccountNumber {
     public String toString() {
         return entry.toString();
     }
+
+    public boolean isValid() {
+        return true;
+    }
 }

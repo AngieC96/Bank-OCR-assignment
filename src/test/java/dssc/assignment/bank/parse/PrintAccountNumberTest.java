@@ -5,6 +5,7 @@ import dssc.assignment.bank.Entry;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PrintAccountNumberTest {
 
@@ -30,5 +31,11 @@ public class PrintAccountNumberTest {
     void allOneToNineDigitEntry() {
         Entry entry = new Entry("    _  _     _  _  _  _  _ ", "  | _| _||_||_ |_   ||_||_|", "  ||_  _|  | _||_|  ||_| _|");
         assertEquals("123456789", new AccountNumber(entry).toString());
+    }
+
+    @Test
+    void isAccountNumberValid() {
+        Entry entry = new Entry(" _  _  _  _  _  _  _  _  _ ", " _|| || ||_|| || || || || |", "|_ |_||_||_||_||_||_||_||_|");
+        assertTrue(new AccountNumber(entry).isValid());
     }
 }
