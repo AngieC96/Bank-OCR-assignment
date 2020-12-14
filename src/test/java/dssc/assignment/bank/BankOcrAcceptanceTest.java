@@ -26,4 +26,24 @@ public class BankOcrAcceptanceTest {
 
         application.showsAccountNumber(String.format("111111111%n"));
     }
+
+    @Test
+    public void parseFileWithSingleAllTwosEntryAndShowActualAccountNumberOnConsole() throws Exception {
+        URL allTwosSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allTwosEntry");
+        ApplicationRunner application = new ApplicationRunner();
+
+        application.parseFile(Path.of(allTwosSingleEntry.toURI()));
+
+        application.showsAccountNumber(String.format("222222222%n"));
+    }
+
+    @Test
+    public void parseFileWithOneToNineDigitEntryAndShowActualAccountNumberOnConsole() throws Exception {
+        URL oneToNineEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allOneToNineDigitEntry");
+        ApplicationRunner application = new ApplicationRunner();
+
+        application.parseFile(Path.of(oneToNineEntry.toURI()));
+
+        application.showsAccountNumber(String.format("123456789%n"));
+    }
 }
