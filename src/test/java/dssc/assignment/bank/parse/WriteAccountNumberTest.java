@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WriteAccountNumberTest {
@@ -28,5 +29,26 @@ public class WriteAccountNumberTest {
 
         List<String> fileLines = Files.readAllLines(Path.of(writeallZerosSingleEntry.toURI()));
         assertEquals("000000000", fileLines.get(0));
+    }
+
+    @Test
+    void MultipleLines() throws Exception {
+        URL MultipleLines = BankOcrAcceptanceTest.class.getClassLoader().getResource("multipleEntries");
+        EntryReader reader = new EntryReader(Path.of(MultipleLines.toURI()));
+        List<Entry> entries = reader.readEntries();
+        List<AccountNumber> numbers = new ArrayList<>();
+        for (Entry entry : entries) {
+            numbers.add(new AccountNumber(entry));
+        }
+        EntryWriter writer = new EntryWriter(numbers);
+        URL writeMultipleEntries = BankOcrAcceptanceTest.class.getClassLoader().getResource("writeMultipleEntries");
+        writer.writeAccountNumbers(Path.of(writeMultipleEntries.toURI()));
+
+        List<String> fileLines = Files.readAllLines(Path.of(writeMultipleEntries.toURI()));
+        assertAll(
+                () -> assertEquals("200800000", fileLines.get(0)),
+                () -> assertEquals("999999999", fileLines.get(1)),
+                () -> assertEquals("490867715", fileLines.get(2))
+        );
     }
 }

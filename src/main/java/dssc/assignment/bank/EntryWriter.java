@@ -17,7 +17,7 @@ public class EntryWriter {
     public void writeAccountNumbers(Path filePath) throws IOException {
         String toBeWritten = "";
         for (AccountNumber number : accountNumbers) {
-            toBeWritten += number.toString();
+            toBeWritten += number.toString() + System.lineSeparator();
         }
         Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
     }
