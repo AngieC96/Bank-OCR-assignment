@@ -17,7 +17,13 @@ public class EntryWriter {
     public void writeAccountNumbers(Path filePath) throws IOException {
         String toBeWritten = "";
         for (AccountNumber number : accountNumbers) {
-            toBeWritten += number.toString() + System.lineSeparator();
+            toBeWritten += number.toString();
+            if (number.hasQuestionMarkDigit()){
+                toBeWritten += " ILL";
+            } else if (!number.isValid()){
+                toBeWritten += " ERR";
+            }
+            toBeWritten += System.lineSeparator();
         }
         Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
     }

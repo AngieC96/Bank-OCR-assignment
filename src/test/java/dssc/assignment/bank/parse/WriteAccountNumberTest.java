@@ -47,8 +47,9 @@ public class WriteAccountNumberTest {
         List<String> fileLines = Files.readAllLines(Path.of(writeMultipleEntries.toURI()));
         assertAll(
                 () -> assertEquals("200800000", fileLines.get(0)),
-                () -> assertEquals("999999999", fileLines.get(1)),
+                () -> assertEquals("999999999 ERR", fileLines.get(1)),
                 () -> assertEquals("490867715", fileLines.get(2))
         );
     }
+    
 }
