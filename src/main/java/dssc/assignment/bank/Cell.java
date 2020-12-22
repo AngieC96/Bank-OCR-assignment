@@ -75,4 +75,16 @@ public class Cell {
                 return "?";
         }
     }
+
+    public String getCellAsText(){
+        return cellAsText;
+    }
+
+    public int distanceCell(Cell other){
+        int distance = 0;
+        for (int i=0; i<9; i++){
+            distance += cellAsText.substring(i,i+1).equals(other.getCellAsText().substring(i,i+1)) ? 0 : 1;
+        }
+        return distance;
+    }
 }
