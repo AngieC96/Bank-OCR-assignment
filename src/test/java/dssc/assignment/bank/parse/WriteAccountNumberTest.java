@@ -51,5 +51,25 @@ public class WriteAccountNumberTest {
                 () -> assertEquals("490867715", fileLines.get(2))
         );
     }
-    
+    @Test
+    void MultipleLinesWithMissing() throws Exception {
+        URL MultipleLines = BankOcrAcceptanceTest.class.getClassLoader().getResource("multipleEntriesWithMissing");
+        EntryReader reader = new EntryReader(Path.of(MultipleLines.toURI()));
+        List<Entry> entries = reader.readEntries();
+        List<AccountNumber> numbers = new ArrayList<>();
+        for (Entry entry : entries) {
+            numbers.add(new AccountNumber(entry));
+        }
+        EntryWriter writer = new EntryWriter(numbers);
+        URL writeMultipleEntries = BankOcrAcceptanceTest.class.getClassLoader().getResource("writeMultipleEntriesWithMissing");
+        writer.writeAccountNumbers(Path.of(writeMultipleEntries.toURI()));
+
+        List<String> fileLines = Files.readAllLines(Path.of(writeMultipleEntries.toURI()));
+        assertAll(
+                () -> assertEquals("200800000", fileLines.get(0)),
+                () -> assertEquals("999999999 ERR", fileLines.get(1)),
+                () -> assertEquals("49086771? ILL", fileLines.get(2))
+        );
+    }
+
 }
