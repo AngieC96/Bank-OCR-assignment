@@ -4,6 +4,7 @@ import dssc.assignment.bank.*;
 import org.junit.jupiter.api.Test;
 
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ public class WriteAccountNumberTest {
         }
         EntryWriter writer = new EntryWriter(numbers);
         URL writeallZerosSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("writeallZerosEntry");
-        writer.writeUsingOutputStream(Path.of(writeallZerosSingleEntry.toURI()));
+        writer.writeAccountNumbers(Path.of(writeallZerosSingleEntry.toURI()));
+
+        List<String> fileLines = Files.readAllLines(Path.of(writeallZerosSingleEntry.toURI()));
+        assertEquals("000000000", fileLines.get(0));
     }
 }
