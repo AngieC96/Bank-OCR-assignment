@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,8 @@ public class WriteAccountNumberTest {
             numbers.add(new AccountNumber(entry));
         }
         EntryWriter writer = new EntryWriter(numbers);
-        URL writeallZerosSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("writeallZerosEntry");
-        writer.writeAccountNumbers(Path.of(writeallZerosSingleEntry.toURI()));
-
-        List<String> fileLines = Files.readAllLines(Path.of(writeallZerosSingleEntry.toURI()));
+        writer.writeAccountNumbers(Paths.get("src/test/resources/writeallZerosEntry"));
+        List<String> fileLines = Files.readAllLines(Paths.get("src/test/resources/writeallZerosEntry"));
         assertEquals("000000000", fileLines.get(0));
     }
 
@@ -41,10 +40,8 @@ public class WriteAccountNumberTest {
             numbers.add(new AccountNumber(entry));
         }
         EntryWriter writer = new EntryWriter(numbers);
-        URL writeMultipleEntries = BankOcrAcceptanceTest.class.getClassLoader().getResource("writeMultipleEntries");
-        writer.writeAccountNumbers(Path.of(writeMultipleEntries.toURI()));
-
-        List<String> fileLines = Files.readAllLines(Path.of(writeMultipleEntries.toURI()));
+        writer.writeAccountNumbers(Paths.get("src/test/resources/writeMultipleEntries"));
+        List<String> fileLines = Files.readAllLines(Paths.get("src/test/resources/writeMultipleEntries"));
         assertAll(
                 () -> assertEquals("200800000", fileLines.get(0)),
                 () -> assertEquals("999999999 ERR", fileLines.get(1)),
@@ -61,10 +58,8 @@ public class WriteAccountNumberTest {
             numbers.add(new AccountNumber(entry));
         }
         EntryWriter writer = new EntryWriter(numbers);
-        URL writeMultipleEntries = BankOcrAcceptanceTest.class.getClassLoader().getResource("writeMultipleEntriesWithMissing");
-        writer.writeAccountNumbers(Path.of(writeMultipleEntries.toURI()));
-
-        List<String> fileLines = Files.readAllLines(Path.of(writeMultipleEntries.toURI()));
+        writer.writeAccountNumbers(Paths.get("src/test/resources/writeMultipleEntriesWithMissing"));
+        List<String> fileLines = Files.readAllLines(Paths.get("src/test/resources/writeMultipleEntriesWithMissing"));
         assertAll(
                 () -> assertEquals("200800000", fileLines.get(0)),
                 () -> assertEquals("999999999 ERR", fileLines.get(1)),
