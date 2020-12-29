@@ -2,6 +2,10 @@ package dssc.assignment.bank;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DistancesTest {
@@ -64,5 +68,33 @@ public class DistancesTest {
                         "  |";
         Cell almostOneCell = new Cell(almostOneAsText);
         assertEquals(4, eightCell.distanceCell(almostOneCell));
+    }
+
+    @Test
+    void eightDistancesFrom0to9() {
+        String eightAsText =
+                        " _ " +
+                        "|_|" +
+                        "|_|";
+        Cell eightCell = new Cell(eightAsText);
+        List<Integer> eightDistances = eightCell.distanceFrom0to9Cells();
+        List<Integer> trueEightDistances = Arrays.asList(1, 5, 2, 2, 3, 2, 1, 4, 0, 1);
+
+        assertEquals(trueEightDistances, eightDistances);
+
+    }
+
+    @Test
+    void almostEightDistancesFrom0to9() {
+        String almostEightAsText =
+                        "   " +
+                        "|_|" +
+                        "|_|";
+        Cell almostEightCell = new Cell(almostEightAsText);
+        List<Integer> almostEightDistances = almostEightCell.distanceFrom0to9Cells();
+        List<Integer> trueAlmostEightDistances = Arrays.asList(2, 4, 3, 3, 2, 3, 2, 5, 1, 2);
+
+        assertEquals(trueAlmostEightDistances, almostEightDistances);
+
     }
 }

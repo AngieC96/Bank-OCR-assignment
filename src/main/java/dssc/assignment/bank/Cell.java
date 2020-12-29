@@ -1,5 +1,9 @@
 package dssc.assignment.bank;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Cell {
 
     private static final String ZERO_CELL =
@@ -87,4 +91,19 @@ public class Cell {
         }
         return distance;
     }
+
+    public List<Integer> distanceFrom0to9Cells() {
+
+        List<Integer> distances = new ArrayList<>();
+        List<String> cellsAsText = Arrays.asList(ZERO_CELL, ONE_CELL, TWO_CELL,
+                                                 THREE_CELL, FOUR_CELL, FIVE_CELL,
+                                                 SIX_CELL, SEVEN_CELL, EIGHT_CELL, NINE_CELL);
+        for (String cell : cellsAsText){
+            Cell currentCell = new Cell(cell);
+            distances.add(this.distanceCell(currentCell));
+        }
+
+        return distances;
+    }
+
 }
