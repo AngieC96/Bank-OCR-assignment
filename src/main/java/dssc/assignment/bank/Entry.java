@@ -17,10 +17,18 @@ public class Entry {
         }
     }
 
+    public Entry(List<Cell> cells) {
+        this.cells = cells;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         cells.forEach(cell -> stringBuilder.append(cell.toString()));
         return stringBuilder.toString();
+    }
+
+    public List<Cell> getCells() {
+        return cells;
     }
 }
