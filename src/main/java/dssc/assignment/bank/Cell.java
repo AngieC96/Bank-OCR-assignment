@@ -80,6 +80,33 @@ public class Cell {
         }
     }
 
+    private String fromIntToCell(int number) {
+        switch (number) {
+            case 0:
+                return ZERO_CELL;
+            case 1:
+                return ONE_CELL;
+            case 2:
+                return TWO_CELL;
+            case 3:
+                return THREE_CELL;
+            case 4:
+                return FOUR_CELL;
+            case 5:
+                return FIVE_CELL;
+            case 6:
+                return SIX_CELL;
+            case 7:
+                return SEVEN_CELL;
+            case 8:
+                return EIGHT_CELL;
+            case 9:
+                return NINE_CELL;
+            default:
+                return "";
+        }
+    }
+
     public String getCellAsText(){
         return cellAsText;
     }
@@ -105,5 +132,19 @@ public class Cell {
 
         return distances;
     }
+
+    public List<Cell> nearestCells(){
+
+        List<Integer> distances = this.distanceFrom0to9Cells();
+        List<Cell> closestCells = new ArrayList<>();
+        for (int i=0; i<distances.size(); i++){
+            if (distances.get(i) == 1){
+                closestCells.add(new Cell(fromIntToCell(i)));
+            }
+        }
+
+        return closestCells;
+    }
+
 
 }
