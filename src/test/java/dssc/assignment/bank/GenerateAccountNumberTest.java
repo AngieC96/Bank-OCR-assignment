@@ -52,6 +52,7 @@ public class GenerateAccountNumberTest {
         assertEquals(expected, suggestedStrings);
     }
 
+
     @Test
     void suggestionForNotValid() throws Exception {
         Entry entry = new Entry("                           ","  |  |  |  |  |  |  |  |  |","  |  |  |  |  |  |  |  |  |");
