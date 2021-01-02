@@ -72,7 +72,7 @@ public class AccountNumber {
 
             for (Cell cell : closestCells){
                 AccountNumber alternativeAccountNumber = replaceAt(questionMarkIndex, cell);
-                if (alternativeAccountNumber.isValid() && !alternativeAccountNumber.hasQuestionMarkDigit()) {
+                if (!alternativeAccountNumber.hasQuestionMarkDigit() && alternativeAccountNumber.isValid()) {
                     possibleAccountNumbers.add(alternativeAccountNumber);
                 }
             }

@@ -67,4 +67,42 @@ public class WriteAccountNumberTest {
         );
     }
 
+    @Test
+    void MultipleLinesWithSuggestions() throws Exception {
+        URL MultipleLines = BankOcrAcceptanceTest.class.getClassLoader().getResource("multipleEntriesWithMissing");
+        EntryReader reader = new EntryReader(Path.of(MultipleLines.toURI()));
+        List<Entry> entries = reader.readEntries();
+        List<AccountNumber> numbers = new ArrayList<>();
+        for (Entry entry : entries) {
+            numbers.add(new AccountNumber(entry));
+        }
+        EntryWriter writer = new EntryWriter(numbers);
+        writer.writeAccountNumbersWithSuggestions(Paths.get("src/test/resources/writeMultipleEntriesWithSuggestions"));
+        List<String> fileLines = Files.readAllLines(Paths.get("src/test/resources/writeMultipleEntriesWithSuggestions"));
+        assertAll(
+                () -> assertEquals("200800000", fileLines.get(0)),
+                () -> assertEquals("999999999 AMB [899999999, 993999999, 999959999]", fileLines.get(1)),
+                () -> assertEquals("490867715", fileLines.get(2))
+        );
+    }
+
+    @Test
+    void MultipleLinesWithNoSuggestions() throws Exception {
+        URL MultipleLines = BankOcrAcceptanceTest.class.getClassLoader().getResource("multipleEntriesWithTwoMissing");
+        EntryReader reader = new EntryReader(Path.of(MultipleLines.toURI()));
+        List<Entry> entries = reader.readEntries();
+        List<AccountNumber> numbers = new ArrayList<>();
+        for (Entry entry : entries) {
+            numbers.add(new AccountNumber(entry));
+        }
+        EntryWriter writer = new EntryWriter(numbers);
+        writer.writeAccountNumbersWithSuggestions(Paths.get("src/test/resources/writeMultipleEntriesWithNoSuggestions"));
+        List<String> fileLines = Files.readAllLines(Paths.get("src/test/resources/writeMultipleEntriesWithNoSuggestions"));
+        assertAll(
+                () -> assertEquals("200800000", fileLines.get(0)),
+                () -> assertEquals("999999999 AMB [899999999, 993999999, 999959999]", fileLines.get(1)),
+                () -> assertEquals("?9086771? ILL", fileLines.get(2))
+        );
+    }
+
 }
