@@ -105,4 +105,22 @@ public class WriteAccountNumberTest {
         );
     }
 
+    @Test
+    void anotherMultipleLinesWithSuggestions() throws Exception {
+        URL MultipleLines = BankOcrAcceptanceTest.class.getClassLoader().getResource("anotherMultipleEntriesWithMissing");
+        EntryReader reader = new EntryReader(Path.of(MultipleLines.toURI()));
+        List<Entry> entries = reader.readEntries();
+        List<AccountNumber> numbers = new ArrayList<>();
+        for (Entry entry : entries) {
+            numbers.add(new AccountNumber(entry));
+        }
+        EntryWriter writer = new EntryWriter(numbers);
+        writer.writeAccountNumbersWithSuggestions(Paths.get("src/test/resources/writeAnotherMultipleEntriesWithMissing"));
+        List<String> fileLines = Files.readAllLines(Paths.get("src/test/resources/writeAnotherMultipleEntriesWithMissing"));
+        assertAll(
+                () -> assertEquals("555555555 AMB [559555555, 555655555]", fileLines.get(0)),
+                () -> assertEquals("490867715", fileLines.get(1)),
+                () -> assertEquals("49?067715 ILL", fileLines.get(2))
+        );
+    }
 }
