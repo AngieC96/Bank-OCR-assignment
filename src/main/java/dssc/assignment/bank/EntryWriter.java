@@ -27,4 +27,25 @@ public class EntryWriter {
         }
         Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
     }
+
+    public void writeAccountNumbersWithSuggestions(Path filePath) throws IOException {
+        String toBeWritten = "";
+        for (AccountNumber number : accountNumbers) {
+            if (!number.hasQuestionMarkDigit() && number.isValid()){
+                toBeWritten += number.toString() + System.lineSeparator();
+            }
+            else {
+                List<AccountNumber> suggested = number.suggestedAccountNumbers();
+                if (suggested.size() == 0){
+                    toBeWritten += number.toString() + " ILL" + System.lineSeparator();
+                }
+                else if (suggested.size() == 1){
+                    toBeWritten += suggested.get(0).toString() + System.lineSeparator();
+                } else {
+                    toBeWritten += number.toString() + " AMB " + suggested.toString() + System.lineSeparator();
+                }
+            }
+        }
+        Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
+    }
 }
