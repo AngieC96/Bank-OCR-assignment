@@ -35,4 +35,17 @@ public class GenerateAccountNumberTest {
         List<String> expected = Arrays.asList("123456789");
         assertEquals(expected, suggestedStrings);
     }
+
+    @Test
+    void suggestionForYetAnotherEntryWithMissingValue() throws Exception {
+        Entry entry = new Entry(" _     _  _  _  _  _  _    ","| || || || || || || ||_   |","|_||_||_||_||_||_||_| _|  |");
+        AccountNumber number = new AccountNumber(entry);
+        List<AccountNumber> suggested = number.suggestedAccountNumbers();
+        List<String> suggestedStrings = new ArrayList<>();
+        for (AccountNumber x: suggested) {
+            suggestedStrings.add(x.toString());
+        }
+        List<String> expected = Arrays.asList("000000051");
+        assertEquals(expected, suggestedStrings);
+    }
 }
