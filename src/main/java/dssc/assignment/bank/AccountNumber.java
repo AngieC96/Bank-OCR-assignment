@@ -2,6 +2,7 @@ package dssc.assignment.bank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountNumber {
 
@@ -52,7 +53,7 @@ public class AccountNumber {
 
     public AccountNumber replaceQuestionMark(int questionMarkIndex, Cell cellToChange){
 
-        List<Cell> accountNumberCells = entry.getCells();
+        List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
 
         accountNumberCells.set(questionMarkIndex, cellToChange);
 
@@ -78,11 +79,7 @@ public class AccountNumber {
                 }
             }
         }
-
-
-
         return possibleAccountNumbers;
-
     }
 
 }
