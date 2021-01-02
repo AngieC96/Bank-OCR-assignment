@@ -1,8 +1,6 @@
 package dssc.assignment.bank;
 
 import org.junit.jupiter.api.Test;
-
-
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -97,5 +95,4 @@ public class GenerateAccountNumberTest {
         List<String> expected = Arrays.asList("899999999", "993999999", "999959999", "490867715");
         assertEquals(expected, suggested);
     }
-
 }
