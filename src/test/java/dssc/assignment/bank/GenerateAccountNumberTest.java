@@ -52,7 +52,6 @@ public class GenerateAccountNumberTest {
         assertEquals(expected, suggestedStrings);
     }
 
-
     @Test
     void suggestionForNotValid() throws Exception {
         Entry entry = new Entry("                           ","  |  |  |  |  |  |  |  |  |","  |  |  |  |  |  |  |  |  |");
@@ -98,4 +97,5 @@ public class GenerateAccountNumberTest {
         List<String> expected = Arrays.asList("899999999", "993999999", "999959999", "490867715");
         assertEquals(expected, suggested);
     }
+
 }

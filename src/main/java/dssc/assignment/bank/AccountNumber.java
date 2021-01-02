@@ -2,7 +2,6 @@ package dssc.assignment.bank;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AccountNumber {
 
@@ -73,7 +72,11 @@ public class AccountNumber {
 
             for (Cell cell : closestCells){
                 AccountNumber alternativeAccountNumber = replaceAt(questionMarkIndex, cell);
+<<<<<<< HEAD
                 if (!alternativeAccountNumber.hasQuestionMarkDigit() && alternativeAccountNumber.isValid()) {
+=======
+                if (alternativeAccountNumber.isValid() && !alternativeAccountNumber.hasQuestionMarkDigit()) {
+>>>>>>> Finished suggestedAccountNumber() + First test
                     possibleAccountNumbers.add(alternativeAccountNumber);
                 }
             }
@@ -91,8 +94,7 @@ public class AccountNumber {
             }
         }
 
-
-	return possibleAccountNumbers;
+        return possibleAccountNumbers;
     }
 
 }
