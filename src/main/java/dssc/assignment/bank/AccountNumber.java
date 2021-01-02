@@ -2,7 +2,6 @@ package dssc.assignment.bank;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AccountNumber {
 
@@ -51,11 +50,11 @@ public class AccountNumber {
         return -1;
     }
 
-    public AccountNumber replaceQuestionMark(int questionMarkIndex, Cell cellToChange){
+    public AccountNumber replaceAt(int index, Cell cellToChange){
 
         List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
 
-        accountNumberCells.set(questionMarkIndex, cellToChange);
+        accountNumberCells.set(index, cellToChange);
 
         return new AccountNumber(new Entry(accountNumberCells));
     }
@@ -69,16 +68,28 @@ public class AccountNumber {
 
             int questionMarkIndex = placeQuestionMarkDigit();
             Cell questionMarkCell = entry.getCells().get(questionMarkIndex);
-            List<Integer> questionMarkDistances = questionMarkCell.distanceFrom0to9Cells();
             List<Cell> closestCells = questionMarkCell.nearestCells();
 
             for (Cell cell : closestCells){
-                AccountNumber alternativeAccountNumber = replaceQuestionMark(questionMarkIndex, cell);
+                AccountNumber alternativeAccountNumber = replaceAt(questionMarkIndex, cell);
                 if (alternativeAccountNumber.isValid() && !alternativeAccountNumber.hasQuestionMarkDigit()) {
                     possibleAccountNumbers.add(alternativeAccountNumber);
                 }
             }
+        } else if (!isValid()) {
+            for (int i = 0; i < 9; ++i) {
+                Cell currentCell = entry.getCells().get(i);
+                List<Cell> closestCells = currentCell.nearestCells();
+
+                for (Cell cell : closestCells){
+                    AccountNumber alternativeAccountNumber = replaceAt(i, cell);
+                    if (alternativeAccountNumber.isValid()) {
+                        possibleAccountNumbers.add(alternativeAccountNumber);
+                    }
+                }
+            }
         }
+
         return possibleAccountNumbers;
     }
 

@@ -48,4 +48,17 @@ public class GenerateAccountNumberTest {
         List<String> expected = Arrays.asList("000000051");
         assertEquals(expected, suggestedStrings);
     }
+
+    @Test
+    void suggestionForNotValid() throws Exception {
+        Entry entry = new Entry("                           ","  |  |  |  |  |  |  |  |  |","  |  |  |  |  |  |  |  |  |");
+        AccountNumber number = new AccountNumber(entry);
+        List<AccountNumber> suggested = number.suggestedAccountNumbers();
+        List<String> suggestedStrings = new ArrayList<>();
+        for (AccountNumber x: suggested) {
+            suggestedStrings.add(x.toString());
+        }
+        List<String> expected = Arrays.asList("711111111");
+        assertEquals(expected, suggestedStrings);
+    }
 }
