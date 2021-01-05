@@ -22,7 +22,7 @@ public class AccountNumber {
         String accountNumber = entry.toString();
         int length = accountNumber.length();
         int checkSum = 0;
-        for (int i=0; i < length; i++) {
+        for (int i=0; i < length; ++i) {
             checkSum += (length-i) * Integer.parseInt(accountNumber.substring(i, i+1));
         }
         return checkSum % 11 == 0;
