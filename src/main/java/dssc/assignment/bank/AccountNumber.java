@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AccountNumber {
 
-    private Entry entry;
+    private final Entry entry;
 
     public AccountNumber(Entry entry) {
         this.entry = entry;
@@ -56,37 +56,29 @@ public class AccountNumber {
     }
 
     public List<AccountNumber> suggestedAccountNumbers(){
-        // Initialize possibleAccountNumbers
         List<AccountNumber> possibleAccountNumbers = new ArrayList<>();
-
-        // Case 1: Account number with a "?": replace that cell with a distance = 1 cell
         if (hasQuestionMarkDigit()){
-
             int questionMarkIndex = placeQuestionMarkDigit();
-            Cell questionMarkCell = entry.getCells().get(questionMarkIndex);
-            List<Cell> closestCells = questionMarkCell.nearestCells();
-
-            for (Cell cell : closestCells){
-                AccountNumber alternativeAccountNumber = replaceAt(questionMarkIndex, cell);
-                if (!alternativeAccountNumber.hasQuestionMarkDigit() && alternativeAccountNumber.isValid()) {
-                    possibleAccountNumbers.add(alternativeAccountNumber);
-                }
-            }
-        } else if (!isValid()) {
+            generateAccountNumbersFromCell(possibleAccountNumbers, questionMarkIndex);
+        }
+        else if (!isValid()) {
             for (int i = 0; i < 9; ++i) {
-                Cell currentCell = entry.getCells().get(i);
-                List<Cell> closestCells = currentCell.nearestCells();
-
-                for (Cell cell : closestCells){
-                    AccountNumber alternativeAccountNumber = replaceAt(i, cell);
-                    if (alternativeAccountNumber.isValid()) {
-                        possibleAccountNumbers.add(alternativeAccountNumber);
-                    }
-                }
+                generateAccountNumbersFromCell(possibleAccountNumbers, i);
             }
         }
-
         return possibleAccountNumbers;
+    }
+
+    private void generateAccountNumbersFromCell(List<AccountNumber> possibleAccountNumbers, int i) {
+        Cell currentCell = entry.getCells().get(i);
+        List<Cell> closestCells = currentCell.nearestCells();
+
+        for (Cell cell : closestCells) {
+            AccountNumber alternativeAccountNumber = replaceAt(i, cell);
+            if (!alternativeAccountNumber.hasQuestionMarkDigit() && alternativeAccountNumber.isValid()) {
+                possibleAccountNumbers.add(alternativeAccountNumber);
+            }
+        }
     }
 
 }
