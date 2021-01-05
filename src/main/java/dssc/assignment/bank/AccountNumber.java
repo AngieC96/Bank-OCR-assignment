@@ -31,7 +31,7 @@ public class AccountNumber {
         return accountNumber.codePoints().anyMatch(x -> x == '?');
     }
 
-    public int placeQuestionMarkDigit(){
+    public int findQuestionMarkDigit(){
         String accountNumber = entry.toString();
         int length = accountNumber.length();
         for (int i = 0; i < length; i++) {
@@ -45,7 +45,7 @@ public class AccountNumber {
     public List<AccountNumber> suggestedAccountNumbers(){
         List<AccountNumber> possibleAccountNumbers = new ArrayList<>();
         if (hasQuestionMarkDigit()){
-            int questionMarkIndex = placeQuestionMarkDigit();
+            int questionMarkIndex = findQuestionMarkDigit();
             generateAccountNumbersFromCell( possibleAccountNumbers, questionMarkIndex );
         }
         else if (!isValid()) {
