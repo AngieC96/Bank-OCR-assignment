@@ -29,13 +29,6 @@ public class AccountNumber {
     public boolean hasQuestionMarkDigit() {
         String accountNumber = entry.toString();
         return accountNumber.codePoints().anyMatch(x -> x == '?');
-        /*int length = accountNumber.length();
-        for (int i=0; i < length; i++) {
-            if (accountNumber.charAt(i) == '?') {
-                return true;
-            }
-        }
-        return false;*/
     }
 
     public int placeQuestionMarkDigit(){
@@ -49,21 +42,15 @@ public class AccountNumber {
         return -1;
     }
 
-    public AccountNumber replaceAt(int index, Cell cellToChange){
-        List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
-        accountNumberCells.set(index, cellToChange);
-        return new AccountNumber(new Entry(accountNumberCells));
-    }
-
     public List<AccountNumber> suggestedAccountNumbers(){
         List<AccountNumber> possibleAccountNumbers = new ArrayList<>();
         if (hasQuestionMarkDigit()){
             int questionMarkIndex = placeQuestionMarkDigit();
-            generateAccountNumbersFromCell(possibleAccountNumbers, questionMarkIndex);
+            generateAccountNumbersFromCell( possibleAccountNumbers, questionMarkIndex );
         }
         else if (!isValid()) {
             for (int i = 0; i < 9; ++i) {
-                generateAccountNumbersFromCell(possibleAccountNumbers, i);
+                generateAccountNumbersFromCell( possibleAccountNumbers, i );
             }
         }
         return possibleAccountNumbers;
@@ -79,6 +66,12 @@ public class AccountNumber {
                 possibleAccountNumbers.add(alternativeAccountNumber);
             }
         }
+    }
+
+    private AccountNumber replaceAt(int index, Cell cellToChange){
+        List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
+        accountNumberCells.set(index, cellToChange);
+        return new AccountNumber(new Entry(accountNumberCells));
     }
 
 }
