@@ -17,45 +17,41 @@ public class AccountNumber {
     }
 
     public boolean isValid() {
-        String accountnumber = entry.toString();
-        int length = accountnumber.length();
-        int sum = 0;
+        String accountNumber = entry.toString();
+        int length = accountNumber.length();
+        int checkSum = 0;
         for (int i=0; i < length; i++) {
-            sum += (length-i) * Integer.parseInt(accountnumber.substring(i, i+1));
+            checkSum += (length-i) * Integer.parseInt(accountNumber.substring(i, i+1));
         }
-        return sum % 11 == 0;
+        return checkSum % 11 == 0;
     }
 
     public boolean hasQuestionMarkDigit() {
-        String accountnumber = entry.toString();
-        int length = accountnumber.length();
+        String accountNumber = entry.toString();
+        return accountNumber.codePoints().anyMatch(x -> x == '?');
+        /*int length = accountNumber.length();
         for (int i=0; i < length; i++) {
-            if (accountnumber.charAt(i) == '?') {
+            if (accountNumber.charAt(i) == '?') {
                 return true;
             }
         }
-        return false;
+        return false;*/
     }
 
     public int placeQuestionMarkDigit(){
-
-        String accountnumber = entry.toString();
-        int length = accountnumber.length();
+        String accountNumber = entry.toString();
+        int length = accountNumber.length();
         for (int i = 0; i < length; i++) {
-            if (accountnumber.charAt(i) == '?') {
+            if (accountNumber.charAt(i) == '?') {
                 return i;
             }
         }
-
         return -1;
     }
 
     public AccountNumber replaceAt(int index, Cell cellToChange){
-
         List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
-
         accountNumberCells.set(index, cellToChange);
-
         return new AccountNumber(new Entry(accountNumberCells));
     }
 
