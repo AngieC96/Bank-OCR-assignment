@@ -2,6 +2,7 @@ package dssc.assignment.bank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class AccountNumber {
@@ -32,7 +33,7 @@ public class AccountNumber {
         return accountNumber.codePoints().anyMatch(x -> x == '?');
     }
 
-    public int findQuestionMarkDigit(){
+    private int findQuestionMarkDigit(){
         String accountNumber = entry.toString();
         return IntStream.range(0, accountNumber.length())
                 .filter(i -> accountNumber.charAt(i) == '?').findAny().getAsInt();
@@ -42,31 +43,30 @@ public class AccountNumber {
         List<AccountNumber> possibleAccountNumbers = new ArrayList<>();
         if (hasQuestionMarkDigit()){
             int questionMarkIndex = findQuestionMarkDigit();
-            generateAccountNumbersFromCell( possibleAccountNumbers, questionMarkIndex );
+            possibleAccountNumbers.addAll(generateAccountNumbersFromCell(questionMarkIndex));
         }
         else if (!isValid()) {
             for (int i = 0; i < 9; ++i) {
-                generateAccountNumbersFromCell( possibleAccountNumbers, i );
-            }
+                possibleAccountNumbers.addAll(generateAccountNumbersFromCell(i));            }
         }
         return possibleAccountNumbers;
     }
 
-    private void generateAccountNumbersFromCell(List<AccountNumber> possibleAccountNumbers, int i) {
+    private List<AccountNumber> generateAccountNumbersFromCell(int i) {
         Cell currentCell = entry.getCells().get(i);
         List<Cell> closestCells = currentCell.nearestCells();
-        for (Cell cell : closestCells) {
-            AccountNumber alternativeAccountNumber = replaceAt(i, cell);
-            if (!alternativeAccountNumber.hasQuestionMarkDigit() && alternativeAccountNumber.isValid()) {
-                possibleAccountNumbers.add(alternativeAccountNumber);
-            }
-        }
+        return closestCells.stream().map(x -> replaceAt(i, x))
+                .filter(AccountNumber::isReal).collect(Collectors.toList());
     }
 
     private AccountNumber replaceAt(int index, Cell cellToChange){
         List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
         accountNumberCells.set(index, cellToChange);
         return new AccountNumber(new Entry(accountNumberCells));
+    }
+
+    private boolean isReal() {
+        return !hasQuestionMarkDigit() && isValid();
     }
 
 }
