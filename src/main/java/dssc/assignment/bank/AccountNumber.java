@@ -55,11 +55,11 @@ public class AccountNumber {
     private List<AccountNumber> generateAccountNumbersFromCell(int i) {
         Cell currentCell = entry.getCells().get(i);
         List<Cell> closestCells = currentCell.nearestCells();
-        return closestCells.stream().map(x -> replaceAt(i, x))
+        return closestCells.stream().map(x -> replaceCellAt(i, x))
                 .filter(AccountNumber::isReal).collect(Collectors.toList());
     }
 
-    private AccountNumber replaceAt(int index, Cell cellToChange){
+    private AccountNumber replaceCellAt(int index, Cell cellToChange){
         List<Cell> accountNumberCells = new ArrayList<>(entry.getCells());
         accountNumberCells.set(index, cellToChange);
         return new AccountNumber(new Entry(accountNumberCells));
