@@ -40,19 +40,20 @@ public class AccountNumber {
     }
 
     public List<AccountNumber> suggestedAccountNumbers(){
-        List<AccountNumber> possibleAccountNumbers = new ArrayList<>();
-        if (hasQuestionMarkDigit()){
+        List<AccountNumber> newAccountNumbers = new ArrayList<>();
+        if (hasQuestionMarkDigit()) {
             int questionMarkIndex = findQuestionMarkDigit();
-            possibleAccountNumbers.addAll(generateAccountNumbersFromCell(questionMarkIndex));
+            newAccountNumbers.addAll(newAccountNumbersFromCell(questionMarkIndex));
         }
         else if (!isValid()) {
             for (int i = 0; i < 9; ++i) {
-                possibleAccountNumbers.addAll(generateAccountNumbersFromCell(i));            }
+                newAccountNumbers.addAll(newAccountNumbersFromCell(i));
+            }
         }
-        return possibleAccountNumbers;
+        return newAccountNumbers;
     }
 
-    private List<AccountNumber> generateAccountNumbersFromCell(int i) {
+    private List<AccountNumber> newAccountNumbersFromCell(int i) {
         Cell currentCell = entry.getCells().get(i);
         List<Cell> closestCells = currentCell.nearestCells();
         return closestCells.stream().map(x -> replaceCellAt(i, x))
