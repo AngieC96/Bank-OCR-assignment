@@ -1,16 +1,25 @@
 package dssc.assignment.bank;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DistancesTest {
 
-    @Test
-    void zeroEightDistance() {
+    @ParameterizedTest
+    @MethodSource("provideStringsForIsBlank")
+    void zeroEightDistance(Cell input1, Cell input2, int expected) {
+        assertEquals(expected, input1.distanceFrom(input2));
+    }
+
+    private static Stream<Arguments> provideStringsForIsBlank() {
         String zeroAsText =
                         " _ " +
                         "| |" +
@@ -21,7 +30,9 @@ public class DistancesTest {
                         "|_|" +
                         "|_|";
         Cell eightCell = new Cell(eightAsText);
-        assertEquals(1, zeroCell.distanceFrom(eightCell));
+        return Stream.of(
+                Arguments.of(zeroCell, eightCell, 1)
+        );
     }
 
     @Test
