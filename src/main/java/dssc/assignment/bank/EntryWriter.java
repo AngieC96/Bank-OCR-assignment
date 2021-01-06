@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class EntryWriter {
-
+    // since we are not writing entries but account Numbers should we change the name of the class?
     private final List<AccountNumber> accountNumbers;
 
     public EntryWriter(List<AccountNumber> accountNumbers) {
@@ -16,49 +16,51 @@ public class EntryWriter {
 
     public void writeAccountNumbers(Path filePath) throws IOException {
         String toBeWritten = "";
-        for (AccountNumber number : accountNumbers) {
-            toBeWritten = getString(toBeWritten, number);
+        for (AccountNumber accountNumber : accountNumbers) {
+            toBeWritten = getString(toBeWritten, accountNumber);
         }
         Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
     }
 
-    private String getString(String toBeWritten, AccountNumber number) {
-        toBeWritten += number.toString();
-        if (number.hasQuestionMarkDigit()){
-            toBeWritten += " ILL"; // make sense to extract this?
-        } else if (!number.isValid()){
-            toBeWritten += " ERR"; // and this?
+    private String getString(String toBeWritten, AccountNumber accountNumber) {
+        toBeWritten += accountNumber.toString();
+        if (accountNumber.hasQuestionMarkDigit()){
+            toBeWritten += " ILL";
+        } else if (!accountNumber.isValid()){
+            toBeWritten += " ERR";
         }
         toBeWritten += System.lineSeparator();
         return toBeWritten;
     }
 
-    private String toWriteIllAccountNumber(String toBeWritten){
-        return toBeWritten += " ILL";
-    }
-
-    private String toWriteInvalidAccountNumber(String toBeWritten){
-        return toBeWritten += " ERR";
-    }
-
+    // here there is code duplication but referring to different user stories is it ok to keep?
     public void writeAccountNumbersWithSuggestions(Path filePath) throws IOException {
         String toBeWritten = "";
-        for (AccountNumber number : accountNumbers) {
-            if (!number.hasQuestionMarkDigit() && number.isValid()){
-                toBeWritten += number.toString() + System.lineSeparator();
-            }
-            else {
-                List<AccountNumber> suggested = number.suggestedAccountNumbers();
-                if (suggested.size() == 0){
-                    toBeWritten += number.toString() + " ILL" + System.lineSeparator();
-                }
-                else if (suggested.size() == 1){
-                    toBeWritten += suggested.get(0).toString() + System.lineSeparator();
-                } else {
-                    toBeWritten += number.toString() + " AMB " + suggested.toString() + System.lineSeparator();
-                }
-            }
+        for (AccountNumber accountNumber : accountNumbers) {
+            toBeWritten = getStringWithSuggestions(toBeWritten, accountNumber);
         }
         Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
     }
+
+    private String getStringWithSuggestions(String toBeWritten, AccountNumber accountNumber) {
+        if (!accountNumber.hasQuestionMarkDigit() && accountNumber.isValid()){ // replace this w/ isReal() after merging!
+            return toBeWritten + accountNumber.toString() + System.lineSeparator();
+        }
+        return writeSuggestions(toBeWritten, accountNumber);
+    }
+
+    private String writeSuggestions(String toBeWritten, AccountNumber accountNumber) {
+        List<AccountNumber> suggestions = accountNumber.suggestedAccountNumbers();
+        if (numberOfSuggestions(suggestions, 0)){
+            return toBeWritten + accountNumber.toString() + " ILL" + System.lineSeparator();
+        } else if (numberOfSuggestions(suggestions, 1)){
+            return toBeWritten + suggestions.get(0).toString() + System.lineSeparator();
+        }
+        return toBeWritten + accountNumber.toString() + " AMB " + suggestions.toString() + System.lineSeparator();
+    }
+
+    private boolean numberOfSuggestions(List<AccountNumber> suggestions, int i) {
+        return suggestions.size() == i;
+    }
+
 }
