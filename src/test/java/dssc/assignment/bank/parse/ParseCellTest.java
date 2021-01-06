@@ -15,25 +15,24 @@ public class ParseCellTest {
 
     @ParameterizedTest
     @MethodSource("provideStringsForParsingCells")
-    //@ValueSource(strings = {" _ " + "| |" + "|_|"})
      void zeroCell(String valueCell, String expected) {
-        String zeroAsText =
-                        " _ " +
-                        "| |" +
-                        "|_|";
         assertEquals(expected, new Cell(valueCell).toString());
     }
 
     private static Stream<Arguments> provideStringsForParsingCells() {
-        String azeroAsText =
+        String zeroAsText =
                         " _ " +
                         "| |" +
                         "|_|";
+        String oneAsText =
+                        "   " +
+                        "  |" +
+                        "  |";
         return Stream.of(
-                Arguments.of(azeroAsText, "0")//,
-                //Arguments.of("", true),
-                //Arguments.of("  ", true),
-                //Arguments.of("not blank", false)
+                Arguments.of(zeroAsText, "0"),
+                Arguments.of(oneAsText, "1")//,
+                //Arguments.of("  ", "2"),
+                //Arguments.of("not blank", "3")
         );
     }
 
