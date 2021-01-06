@@ -2,7 +2,6 @@ package dssc.assignment.bank;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class DistancesTest {
                         "|_|" +
                         "|_|";
         Cell eightCell = new Cell(eightAsText);
-        assertEquals(1, zeroCell.distanceCell(eightCell));
+        assertEquals(1, zeroCell.distanceFrom(eightCell));
     }
 
     @Test
@@ -37,7 +36,7 @@ public class DistancesTest {
                         "|  " +
                         " _|";
         Cell almostFiveCell = new Cell(almostFiveAsText);
-        assertEquals(1, fiveCell.distanceCell(almostFiveCell));
+        assertEquals(1, fiveCell.distanceFrom(almostFiveCell));
     }
 
     @Test
@@ -52,7 +51,7 @@ public class DistancesTest {
                         " _|" +
                         "  |";
         Cell almostOneCell = new Cell(almostOneAsText);
-        assertEquals(2, sevenCell.distanceCell(almostOneCell));
+        assertEquals(2, sevenCell.distanceFrom(almostOneCell));
     }
 
     @Test
@@ -67,7 +66,7 @@ public class DistancesTest {
                         " _|" +
                         "  |";
         Cell almostOneCell = new Cell(almostOneAsText);
-        assertEquals(4, eightCell.distanceCell(almostOneCell));
+        assertEquals(4, eightCell.distanceFrom(almostOneCell));
     }
 
     @Test
@@ -77,7 +76,7 @@ public class DistancesTest {
                         "|_|" +
                         "|_|";
         Cell eightCell = new Cell(eightAsText);
-        List<Integer> eightDistances = eightCell.distanceFrom0to9Cells();
+        List<Integer> eightDistances = eightCell.distancesFrom0to9Cells();
         List<Integer> trueEightDistances = Arrays.asList(1, 5, 2, 2, 3, 2, 1, 4, 0, 1);
 
         assertEquals(trueEightDistances, eightDistances);
@@ -91,7 +90,7 @@ public class DistancesTest {
                         "|_|" +
                         "|_|";
         Cell almostEightCell = new Cell(almostEightAsText);
-        List<Integer> almostEightDistances = almostEightCell.distanceFrom0to9Cells();
+        List<Integer> almostEightDistances = almostEightCell.distancesFrom0to9Cells();
         List<Integer> trueAlmostEightDistances = Arrays.asList(2, 4, 3, 3, 2, 3, 2, 5, 1, 2);
 
         assertEquals(trueAlmostEightDistances, almostEightDistances);

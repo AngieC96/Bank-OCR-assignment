@@ -111,40 +111,34 @@ public class Cell {
         return cellAsText;
     }
 
-    public int distanceCell(Cell other){
+    public int distanceFrom(Cell otherCell){
         int distance = 0;
-        for (int i=0; i<9; i++){
-            distance += cellAsText.substring(i,i+1).equals(other.getCellAsText().substring(i,i+1)) ? 0 : 1;
+        for (int i = 0; i < 9; i++){
+            distance += cellAsText.substring(i, i+1).equals(otherCell.getCellAsText()
+                    .substring(i, i+1)) ? 0 : 1;
         }
         return distance;
     }
 
-    public List<Integer> distanceFrom0to9Cells() {
-
+    public List<Integer> distancesFrom0to9Cells() {
         List<Integer> distances = new ArrayList<>();
-        List<String> cellsAsText = Arrays.asList(ZERO_CELL, ONE_CELL, TWO_CELL,
-                                                 THREE_CELL, FOUR_CELL, FIVE_CELL,
-                                                 SIX_CELL, SEVEN_CELL, EIGHT_CELL, NINE_CELL);
-        for (String cell : cellsAsText){
-            Cell currentCell = new Cell(cell);
-            distances.add(this.distanceCell(currentCell));
+        List<String> cellsAsText = Arrays.asList(ZERO_CELL, ONE_CELL, TWO_CELL, THREE_CELL,
+                                                 FOUR_CELL, FIVE_CELL, SIX_CELL, SEVEN_CELL,
+                                                 EIGHT_CELL, NINE_CELL);
+        for (String cellContent: cellsAsText){
+            distances.add(this.distanceFrom(new Cell(cellContent)));
         }
-
         return distances;
     }
 
     public List<Cell> nearestCells(){
-
-        List<Integer> distances = this.distanceFrom0to9Cells();
+        List<Integer> distances = this.distancesFrom0to9Cells();
         List<Cell> closestCells = new ArrayList<>();
-        for (int i=0; i<distances.size(); i++){
+        for (int i = 0; i < distances.size(); i++){
             if (distances.get(i) == 1){
                 closestCells.add(new Cell(fromIntToCell(i)));
             }
         }
-
         return closestCells;
     }
-
-
 }
