@@ -1,6 +1,5 @@
 package dssc.assignment.bank;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,29 +13,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DistancesTest {
 
     @ParameterizedTest
-    @MethodSource("provideStringsForIsBlank")
-    void zeroEightDistance(Cell input1, Cell input2, int expected) {
+    @MethodSource("provideTwoCellsAndExpected")
+    void distanceBetweenTwoCells(Cell input1, Cell input2, int expected) {
         assertEquals(expected, input1.distanceFrom(input2));
     }
 
-    private static Stream<Arguments> provideStringsForIsBlank() {
+    private static Stream<Arguments> provideTwoCellsAndExpected() {
         String zeroAsText =
                         " _ " +
                         "| |" +
                         "|_|";
         Cell zeroCell = new Cell(zeroAsText);
-        String eightAsText =
-                        " _ " +
-                        "|_|" +
-                        "|_|";
-        Cell eightCell = new Cell(eightAsText);
-        return Stream.of(
-                Arguments.of(zeroCell, eightCell, 1)
-        );
-    }
-
-    @Test
-    void fiveAlmostFiveDistance() {
+        String almostOneAsText =
+                        "   " +
+                        " _|" +
+                        "  |";
+        Cell almostOneCell = new Cell(almostOneAsText);
         String fiveAsText =
                         " _ " +
                         "|_ " +
@@ -47,64 +39,45 @@ public class DistancesTest {
                         "|  " +
                         " _|";
         Cell almostFiveCell = new Cell(almostFiveAsText);
-        assertEquals(1, fiveCell.distanceFrom(almostFiveCell));
-    }
-
-    @Test
-    void sevenAlmostOneDistance() {
         String sevenAsText =
                         " _ " +
                         "  |" +
                         "  |";
         Cell sevenCell = new Cell(sevenAsText);
-        String almostOneAsText =
-                        "   " +
-                        " _|" +
-                        "  |";
-        Cell almostOneCell = new Cell(almostOneAsText);
-        assertEquals(2, sevenCell.distanceFrom(almostOneCell));
-    }
-
-    @Test
-    void eightAlmostOneDistance() {
         String eightAsText =
                         " _ " +
                         "|_|" +
                         "|_|";
         Cell eightCell = new Cell(eightAsText);
-        String almostOneAsText =
-                        "   " +
-                        " _|" +
-                        "  |";
-        Cell almostOneCell = new Cell(almostOneAsText);
-        assertEquals(4, eightCell.distanceFrom(almostOneCell));
+
+        return Stream.of(
+                Arguments.of(zeroCell, eightCell, 1),
+                Arguments.of(fiveCell, almostFiveCell, 1),
+                Arguments.of(sevenCell, almostOneCell, 2),
+                Arguments.of(eightCell, almostOneCell, 4)
+        );
     }
 
-    @Test
-    void eightDistancesFrom0to9() {
+    @ParameterizedTest
+    @MethodSource("provideACellAndExpectedList")
+    void cellDistancesFrom0to9(String cellAsText, List<Integer> trueDistances) {
+        Cell cell = new Cell(cellAsText);
+        List<Integer> cellDistances = cell.distancesFrom0to9Cells();
+        assertEquals(trueDistances, cellDistances);
+    }
+
+    private static Stream<Arguments> provideACellAndExpectedList() {
         String eightAsText =
                         " _ " +
                         "|_|" +
                         "|_|";
-        Cell eightCell = new Cell(eightAsText);
-        List<Integer> eightDistances = eightCell.distancesFrom0to9Cells();
-        List<Integer> trueEightDistances = Arrays.asList(1, 5, 2, 2, 3, 2, 1, 4, 0, 1);
-
-        assertEquals(trueEightDistances, eightDistances);
-
-    }
-
-    @Test
-    void almostEightDistancesFrom0to9() {
         String almostEightAsText =
                         "   " +
                         "|_|" +
                         "|_|";
-        Cell almostEightCell = new Cell(almostEightAsText);
-        List<Integer> almostEightDistances = almostEightCell.distancesFrom0to9Cells();
-        List<Integer> trueAlmostEightDistances = Arrays.asList(2, 4, 3, 3, 2, 3, 2, 5, 1, 2);
-
-        assertEquals(trueAlmostEightDistances, almostEightDistances);
-
+        return Stream.of(
+                Arguments.of(eightAsText, Arrays.asList(1, 5, 2, 2, 3, 2, 1, 4, 0, 1)),
+                Arguments.of(almostEightAsText, Arrays.asList(2, 4, 3, 3, 2, 3, 2, 5, 1, 2))
+        );
     }
 }
