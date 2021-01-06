@@ -18,9 +18,8 @@ public class GenerateAccountNumberTest {
     @ParameterizedTest
     @MethodSource("ProvideAccountNumberAndExpectedSuggestions")
     void accountNumberSuggestions(AccountNumber number, List<String> expected) {
-        List<AccountNumber> suggested = number.suggestedAccountNumbers();
-        List<String> accountNumberAsStrings = suggested.stream().map(AccountNumber::toString).collect(Collectors.toList());
-        assertEquals(expected, accountNumberAsStrings);
+        List<String> suggested = number.suggestedAccountNumbersAsStrings();
+        assertEquals(expected, suggested);
     }
 
     private static Stream<Arguments> ProvideAccountNumberAndExpectedSuggestions() {
@@ -50,9 +49,8 @@ public class GenerateAccountNumberTest {
         List<Entry> entries = reader.readEntries();
         List<AccountNumber> numbers = entries.stream().map(AccountNumber::new).collect(Collectors.toList());
         List<String> suggested = numbers.stream()
-                .map(AccountNumber::suggestedAccountNumbers)
+                .map(AccountNumber::suggestedAccountNumbersAsStrings)
                 .flatMap(Collection::stream)
-                .map(AccountNumber::toString)
                 .collect(Collectors.toList());
         List<String> expected = Arrays.asList("899999999", "993999999", "999959999", "490867715");
         assertEquals(expected, suggested);

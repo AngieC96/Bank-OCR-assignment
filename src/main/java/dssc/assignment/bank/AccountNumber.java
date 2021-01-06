@@ -70,4 +70,7 @@ public class AccountNumber {
         return !hasQuestionMarkDigit() && isValid();
     }
 
+    public List<String> suggestedAccountNumbersAsStrings() {
+        return suggestedAccountNumbers().stream().map(AccountNumber::toString).collect(Collectors.toList());
+    }
 }
