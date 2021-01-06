@@ -17,15 +17,28 @@ public class EntryWriter {
     public void writeAccountNumbers(Path filePath) throws IOException {
         String toBeWritten = "";
         for (AccountNumber number : accountNumbers) {
-            toBeWritten += number.toString();
-            if (number.hasQuestionMarkDigit()){
-                toBeWritten += " ILL";
-            } else if (!number.isValid()){
-                toBeWritten += " ERR";
-            }
-            toBeWritten += System.lineSeparator();
+            toBeWritten = getString(toBeWritten, number);
         }
         Files.write(filePath, toBeWritten.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private String getString(String toBeWritten, AccountNumber number) {
+        toBeWritten += number.toString();
+        if (number.hasQuestionMarkDigit()){
+            toBeWritten += " ILL"; // make sense to extract this?
+        } else if (!number.isValid()){
+            toBeWritten += " ERR"; // and this?
+        }
+        toBeWritten += System.lineSeparator();
+        return toBeWritten;
+    }
+
+    private String toWriteIllAccountNumber(String toBeWritten){
+        return toBeWritten += " ILL";
+    }
+
+    private String toWriteInvalidAccountNumber(String toBeWritten){
+        return toBeWritten += " ERR";
     }
 
     public void writeAccountNumbersWithSuggestions(Path filePath) throws IOException {
