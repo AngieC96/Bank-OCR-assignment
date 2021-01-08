@@ -17,15 +17,15 @@ public class Entry {
         }
     }
 
-    public Entry(List<Cell> cells) {
-        this.cells = cells;
+    public Entry(List<Cell> listOfCells) {
+        this.cells = listOfCells;
     }
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        cells.forEach(cell -> stringBuilder.append(cell.toString()));
-        return stringBuilder.toString();
+        StringBuilder entryAsString = new StringBuilder();
+        cells.forEach(cell -> entryAsString.append(cell.toString()));
+        return entryAsString.toString();
     }
 
     public List<Cell> getCells() {
