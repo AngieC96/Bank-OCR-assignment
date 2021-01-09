@@ -18,10 +18,10 @@ public class ReadEntryTest {
 
 
     @ParameterizedTest
-    @CsvSource({"allZerosEntry, '000000000'",
-                "allOnesEntry, '111111111'",
-                "allTwosEntry, '222222222'",
-                "allOneToNineDigitEntry,  '123456789'"})
+    @CsvSource({"allZerosEntry, 000000000",
+                "allOnesEntry, 111111111",
+                "allTwosEntry, 222222222",
+                "allOneToNineDigitEntry,  123456789"})
     void readFromFileOneEntry(String inputFileName, String expectedEntry) throws Exception {
         URL oneSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource(inputFileName);
         EntryReader reader = new EntryReader(Path.of(oneSingleEntry.toURI()));
