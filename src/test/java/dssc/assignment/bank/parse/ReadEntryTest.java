@@ -4,6 +4,8 @@ import dssc.assignment.bank.BankOcrAcceptanceTest;
 import dssc.assignment.bank.Entry;
 import dssc.assignment.bank.EntryReader;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.net.URL;
 import java.nio.file.Path;
@@ -14,37 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReadEntryTest {
 
-    @Test
-    void allZerosEntry() throws Exception {
-        URL allZerosSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allZerosEntry");
-        EntryReader reader = new EntryReader(Path.of(allZerosSingleEntry.toURI()));
-        List<Entry> entries = reader.readEntries();
-        assertEquals("000000000", entries.get(0).toString());
+
+    @ParameterizedTest
+    @CsvSource({"allZerosEntry, 000000000",
+                "allOnesEntry, 111111111",
+                "allTwosEntry, 222222222",
+                "allOneToNineDigitEntry,  123456789"})
+    void readFromFileOneEntry(String inputFileName, String expectedEntry) throws Exception {
+        URL oneSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource(inputFileName);
+        EntryReader reader = new EntryReader(Path.of(oneSingleEntry.toURI()));
+        List<Entry> entries  = reader.readEntries();
+        Entry entryToRead = entries.get(0);
+        assertEquals(expectedEntry, entryToRead.toString());
     }
 
-    @Test
-    void allOnesEntry() throws Exception {
-        URL allOnesSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allOnesEntry");
-        EntryReader reader = new EntryReader(Path.of(allOnesSingleEntry.toURI()));
-        List<Entry> entries = reader.readEntries();
-        assertEquals("111111111", entries.get(0).toString());
-    }
-
-    @Test
-    void allTwosEntry() throws Exception {
-        URL allTwosSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allTwosEntry");
-        EntryReader reader = new EntryReader(Path.of(allTwosSingleEntry.toURI()));
-        List<Entry> entries = reader.readEntries();
-        assertEquals("222222222", entries.get(0).toString());
-    }
-
-    @Test
-    void allOneToNineDigitEntry() throws Exception {
-        URL allOneToNineDigitSingleEntry = BankOcrAcceptanceTest.class.getClassLoader().getResource("allOneToNineDigitEntry");
-        EntryReader reader = new EntryReader(Path.of(allOneToNineDigitSingleEntry.toURI()));
-        List<Entry> entries = reader.readEntries();
-        assertEquals("123456789", entries.get(0).toString());
-    }
 
     @Test
     void multipleEntries() throws Exception {

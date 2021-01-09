@@ -17,7 +17,8 @@ public class EntryReader {
     public List<Entry> readEntries() {
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < fileLines.size(); i += 4) {
-            entries.add(new Entry(fileLines.get(i), fileLines.get(i + 1), fileLines.get(i + 2)));
+            Entry entryToRead = new Entry(fileLines.get(i), fileLines.get(i + 1), fileLines.get(i + 2));
+            entries.add(entryToRead);
         }
 
 
