@@ -1,9 +1,10 @@
 package dssc.assignment.bank;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 public class Cell {
 
@@ -103,17 +104,15 @@ public class Cell {
         List<String> cellsAsText = new ArrayList<>(List.of(ZERO_CELL, ONE_CELL, TWO_CELL, THREE_CELL,
                                                  FOUR_CELL, FIVE_CELL, SIX_CELL, SEVEN_CELL,
                                                  EIGHT_CELL, NINE_CELL));
-        return cellsAsText.stream().map(Cell::new).map(this::distanceFrom).collect(Collectors.toList());
+        return cellsAsText.stream().map(Cell::new).map(this::distanceFrom).collect(toList());
     }
 
     public List<Cell> nearestCells(){
         List<Integer> distances = this.distancesFrom0to9Cells();
-        List<Cell> closestCells = new ArrayList<>();
-        for (int i = 0; i < distances.size(); i++){
-            if (distances.get(i) == 1){
-                closestCells.add(new Cell(fromIntToCell(i)));
-            }
-        }
-        return closestCells;
+        return IntStream.range(0, distances.size())
+                        .filter(x -> distances.get(x) == 1)
+                        .mapToObj(this::fromIntToCell)
+                        .map(Cell::new)
+                        .collect(toList());
     }
 }
