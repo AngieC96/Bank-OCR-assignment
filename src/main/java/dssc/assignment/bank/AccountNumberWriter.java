@@ -36,7 +36,7 @@ public class AccountNumberWriter {
 
 
     public static String getStringWithSuggestions(AccountNumber accountNumber) {
-        if (!accountNumber.hasQuestionMarkDigit() && accountNumber.isValid()){ // replace this w/ isReal() after merging!
+        if (accountNumber.isReal()){
             return accountNumber.toString() + System.lineSeparator();
         }
         return writeSuggestions(accountNumber);

@@ -66,7 +66,7 @@ public class AccountNumber {
         return new AccountNumber(new Entry(accountNumberCells));
     }
 
-    private boolean isReal() {
+    public boolean isReal() {
         return !hasQuestionMarkDigit() && isValid();
     }
 
